@@ -11,9 +11,12 @@ This tutorial covers some of the landmark methods in the area of planning action
 ## What's In This Repository
 
 - [tutorial_site.md](tutorial_site.md): The source for the tutorial website, hosted on the ICAPS'23 page.
-- [slides.pptx](slides.pptx): The slides for the tutorial.
 - [Dockerfile](Dockerfile): The Dockerfile for the tutorial -- can also be pulled directly from dockerhub (see the slides).
 - [assets/](assets/): The assets for the tutorial content (starting data, etc).
+
+### External
+
+- [slides](https://queensuca-my.sharepoint.com/:p:/g/personal/cm290_queensu_ca/EdF58JZpq21Nmi5StZpOT80BQuHOw9oA1ak3RnNnOzVNXg?e=L0xFVX): The slides for the tutorial.
 
 ## Organizers
 
