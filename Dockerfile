@@ -5,11 +5,12 @@ FROM aiplanning/planutils:latest
 RUN apt-get update && apt-get -y install locales
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    graphviz
+    graphviz python-is-python3
 
 # Needed for the server (useful for many of the modules with the vscode plugin)
 RUN pip3 install --upgrade flask
 RUN pip3 install --upgrade graphviz
+RUN pip3 install --upgrade tqdm
 
 
 RUN planutils install -f -y lama-first
