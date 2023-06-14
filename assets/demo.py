@@ -1,5 +1,5 @@
-from macq import generate, extract
-from macq.observation import IdentityObservation
+# from macq import generate, extract
+# from macq.observation import IdentityObservation
 
 # print("\nGenerating traces...")
 # traces = generate.pddl.VanillaSampling(problem_id=4398,
@@ -18,11 +18,13 @@ from macq.observation import IdentityObservation
 
 # print("\nDone!\n")
 
+from macq import extract
 from macq.observation import AtomicPartialObservation, ObservedTraceList
 from macq.trace import Step, Fluent, Action, State
 
 f1 = Fluent("f1", [])
 f2 = Fluent("f2", [])
+
 a1 = Action("a1", [])
 a2 = Action("a2", [])
 
