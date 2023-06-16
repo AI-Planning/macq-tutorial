@@ -92,7 +92,7 @@ def slaf_simple_example():
 def amdn_example():
     print("\nGenerating traces...")
     traces = generate.pddl.VanillaSampling(
-        problem_id=PROBLEM_ID, plan_len=20, num_traces=10
+        problem_id=PROBLEM_ID, plan_len=20, num_traces=10, observe_pres_effs=True
     ).traces
 
     traces[0].print(view="color")
