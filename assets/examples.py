@@ -1,3 +1,9 @@
+
+import inspect
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import TerminalFormatter
+
 from macq import generate, extract
 from macq.observation import (
     IdentityObservation,
@@ -11,6 +17,7 @@ from macq.trace import (
     Fluent,
     Action,
     State,
+    PlanningObject,
     DisorderedParallelActionsObservationLists,
 )
 
@@ -64,7 +71,7 @@ def slaf_example():
     print("\nDone!\n")
 
 
-def slaf_simple_example():
+def slaf_slides_example():
     f1 = Fluent("f1", [])
     f2 = Fluent("f2", [])
 
@@ -131,7 +138,52 @@ def locm_example():
 
     print("\nExtracting model...")
     observations = traces.tokenize(ActionObservation)
-    model = extract.Extract(observations, extract.modes.LOCM, debug=True)
+    model = extract.Extract(observations, extract.modes.LOCM, debug=False, viz=True)
+
+    print("\nPrinting model...")
+    model.to_pddl(
+        domain_name="test-blocks", domain_filename="d.pddl", problem_filename="p.pddl"
+    )
+
+    print("\nDone!\n")
+
+
+def locm_slides_example():
+    print("\nGenerating traces...")
+
+    c1 = PlanningObject("", "c1")
+    c2 = PlanningObject("", "c2")
+    c3 = PlanningObject("", "c3")
+    j1 = PlanningObject("", "j1")
+    j2 = PlanningObject("", "j2")
+    wr1 = PlanningObject("", "wr1")
+    wr2 = PlanningObject("", "wr2")
+
+    a1 = Action("open", [c1])
+    a2 = Action("fetch-jack", [j1, c1])
+    a3 = Action("fetch-wrench", [wr1, c1])
+    a4 = Action("close", [c1])
+    a5 = Action("open", [c2])
+    a6 = Action("fetch-wrench", [wr2, c2])
+    a7 = Action("fetch-jack", [j2, c2])
+    a8 = Action("close", [c2])
+    a9 = Action("close", [c3])
+    a10 = Action("open", [c3])
+
+    s1 = ActionObservation(Step(None, a1, 1))
+    s2 = ActionObservation(Step(None, a2, 2))
+    s3 = ActionObservation(Step(None, a3, 3))
+    s4 = ActionObservation(Step(None, a4, 4))
+    s5 = ActionObservation(Step(None, a5, 5))
+    s6 = ActionObservation(Step(None, a6, 6))
+    s7 = ActionObservation(Step(None, a7, 7))
+    s8 = ActionObservation(Step(None, a8, 8))
+    s9 = ActionObservation(Step(None, a9, 9))
+    s10 = ActionObservation(Step(None, a10, 10))
+
+    obs = ObservedTraceList(observations=[[s1, s2, s3, s4, s5, s6, s7, s8, s9, s10]])
+
+    model = extract.Extract(obs, extract.modes.LOCM, viz=True)
 
     print("\nPrinting model...")
     model.to_pddl(
@@ -151,17 +203,45 @@ def main():
     inp = input("\nEnter a number: ")
     print()
 
+    assert inp in ["1", "2", "3", "4"], "Invalid input. Exiting."
+
+    if inp in ["2", "4"]:
+        # Ask if simple or slides example.
+        print("Which example would you like to run?")
+        print("1. Simple")
+        print("2. Slides")
+        inp2 = input("\nEnter a number: ")
+        print()
+
+        assert inp2 in ["1", "2"], "Invalid input. Exiting."
+
     if inp == "1":
         observer_example()
-    elif inp == "2":
+        code = inspect.getsource(observer_example)
+    elif inp == "2" and inp2 == "1":
         slaf_example()
+        code = inspect.getsource(slaf_example)
+    elif inp == "2" and inp2 == "2":
+        slaf_slides_example()
+        code = inspect.getsource(slaf_slides_example)
     elif inp == "3":
         amdn_example()
-    elif inp == "4":
+        code = inspect.getsource(amdn_example)
+    elif inp == "4" and inp2 == "1":
         locm_example()
+        code = inspect.getsource(locm_example)
+    elif inp == "4" and inp2 == "2":
+        locm_slides_example()
+        code = inspect.getsource(locm_slides_example)
     else:
         print("Invalid input. Exiting.")
         exit(1)
+
+    print("Code that was just used:")
+
+    highlighted_code = highlight(code, PythonLexer(), TerminalFormatter())
+
+    print(highlighted_code)
 
 
 if __name__ == "__main__":

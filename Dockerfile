@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 RUN pip3 install --upgrade flask
 RUN pip3 install --upgrade graphviz
 RUN pip3 install --upgrade tqdm
+RUN pip3 install --upgrade pygments
 
 
 RUN planutils install -f -y lama-first
