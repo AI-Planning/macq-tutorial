@@ -12,7 +12,7 @@ This tutorial covers some of the landmark methods in the area of planning action
 
 - [tutorial_site.md](tutorial_site.md): The source for the tutorial website, hosted on the ICAPS'23 page.
 - [Dockerfile](Dockerfile): The Dockerfile for the tutorial -- can also be pulled directly from dockerhub (see the slides).
-- [assets/](assets/): The assets for the tutorial content (starting data, etc).
+- [examples.py](examples.py): The model acquisition examples embedded within the docker image.
 
 ### External
 

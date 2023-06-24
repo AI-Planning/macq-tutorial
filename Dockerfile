@@ -31,6 +31,6 @@ RUN echo 'python3 /usr/local/bin/examples.py' >> /usr/local/bin/macq-tutorial
 RUN chmod +x /usr/local/bin/macq-tutorial
 
 
-WORKDIR /root/macq-tutorial
+WORKDIR /root/work
 
 CMD planutils activate

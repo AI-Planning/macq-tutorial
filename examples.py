@@ -222,7 +222,7 @@ def locm_slides_example():
 
 def main():
     # Ask the user which example they want to run.
-    print("Which example would you like to run?")
+    print("Which example would you like to see?")
     print("1. Observer")
     print("2. SLAF")
     print("3. AMDN")
@@ -243,22 +243,22 @@ def main():
         assert inp2 in ["1", "2"], "Invalid input. Exiting."
 
     if inp == "1":
-        observer_example()
+        func = observer_example
         code = inspect.getsource(observer_example) + "\n" + "observer_example()"
     elif inp == "2" and inp2 == "1":
-        slaf_example()
+        func = slaf_example
         code = inspect.getsource(slaf_example) + "\n" + "slaf_example()"
     elif inp == "2" and inp2 == "2":
-        slaf_slides_example()
+        func = slaf_slides_example
         code = inspect.getsource(slaf_slides_example) + "\n" + "slaf_slides_example()"
     elif inp == "3":
-        amdn_example()
+        func = amdn_example
         code = inspect.getsource(amdn_example) + "\n" + "amdn_example()"
     elif inp == "4" and inp2 == "1":
-        locm_example()
+        func = locm_example
         code = inspect.getsource(locm_example) + "\n" + "locm_example()"
     elif inp == "4" and inp2 == "2":
-        locm_slides_example()
+        func = locm_slides_example
         code = inspect.getsource(locm_slides_example) + "\n" + "locm_slides_example()"
     else:
         print("Invalid input. Exiting.")
@@ -269,10 +269,11 @@ def main():
     print("Would you like to see the code, write it to run.py, or exit?")
     print("1. See the code")
     print("2. Write to run.py")
-    print("3. Exit")
+    print("3. Run the code")
+    print("4. Exit")
     inp = input("\nEnter a number: ")
 
-    assert inp in ["1", "2", "3"], "Invalid input. Exiting."
+    assert inp in ["1", "2", "3", "4"], "Invalid input. Exiting."
 
     if inp == "1":
         print("\nCode:\n")
@@ -282,6 +283,8 @@ def main():
         with open("run.py", "w") as f:
             f.write(PREAMBLE+"\n\n"+code)
         print("\nWrote code to run.py\n")
+    elif inp == "3":
+        func()
     else:
         print("\nExiting.\n")
 
