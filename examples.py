@@ -30,6 +30,33 @@ from macq.trace.disordered_parallel_actions_observation_lists import (
 
 PROBLEM_ID = 1801
 
+PREAMBLE = """
+from macq import generate, extract
+from macq.observation import (
+    IdentityObservation,
+    AtomicPartialObservation,
+    ObservedTraceList,
+    ActionObservation,
+    NoisyPartialDisorderedParallelObservation,
+)
+from macq.trace import (
+    Step,
+    Fluent,
+    Action,
+    State,
+    PlanningObject,
+    DisorderedParallelActionsObservationLists,
+)
+
+from macq.trace.disordered_parallel_actions_observation_lists import (
+    default_theta_vec,
+    num_parameters_feature,
+    objects_shared_feature,
+)
+
+
+PROBLEM_ID = 1801"""
+
 
 def observer_example():
     print("\nGenerating traces...")
@@ -217,31 +244,46 @@ def main():
 
     if inp == "1":
         observer_example()
-        code = inspect.getsource(observer_example)
+        code = inspect.getsource(observer_example) + "\n" + "observer_example()"
     elif inp == "2" and inp2 == "1":
         slaf_example()
-        code = inspect.getsource(slaf_example)
+        code = inspect.getsource(slaf_example) + "\n" + "slaf_example()"
     elif inp == "2" and inp2 == "2":
         slaf_slides_example()
-        code = inspect.getsource(slaf_slides_example)
+        code = inspect.getsource(slaf_slides_example) + "\n" + "slaf_slides_example()"
     elif inp == "3":
         amdn_example()
-        code = inspect.getsource(amdn_example)
+        code = inspect.getsource(amdn_example) + "\n" + "amdn_example()"
     elif inp == "4" and inp2 == "1":
         locm_example()
-        code = inspect.getsource(locm_example)
+        code = inspect.getsource(locm_example) + "\n" + "locm_example()"
     elif inp == "4" and inp2 == "2":
         locm_slides_example()
-        code = inspect.getsource(locm_slides_example)
+        code = inspect.getsource(locm_slides_example) + "\n" + "locm_slides_example()"
     else:
         print("Invalid input. Exiting.")
         exit(1)
 
-    print("Code that was just used:")
 
-    highlighted_code = highlight(code, PythonLexer(), TerminalFormatter())
+    # Prompt to see if they'd like to see the code, write it to run.py, or exit.
+    print("Would you like to see the code, write it to run.py, or exit?")
+    print("1. See the code")
+    print("2. Write to run.py")
+    print("3. Exit")
+    inp = input("\nEnter a number: ")
 
-    print(highlighted_code)
+    assert inp in ["1", "2", "3"], "Invalid input. Exiting."
+
+    if inp == "1":
+        print("\nCode:\n")
+        highlighted_code = highlight(code, PythonLexer(), TerminalFormatter())
+        print(highlighted_code)
+    elif inp == "2":
+        with open("run.py", "w") as f:
+            f.write(PREAMBLE+"\n\n"+code)
+        print("\nWrote code to run.py\n")
+    else:
+        print("\nExiting.\n")
 
 
 if __name__ == "__main__":

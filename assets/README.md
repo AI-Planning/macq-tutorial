@@ -1,3 +1,0 @@
-# Tutorial Assets
-
-Coming soon...

@@ -22,6 +22,15 @@ RUN planutils install -f -y macq
 # Misc
 RUN planutils install -f -y val
 
+# Copy examples.py into /usr/local/bin so it's publicly available
+COPY examples.py /usr/local/bin/examples.py
+
+# Create a script there to invoke it
+RUN echo '#!/bin/bash' > /usr/local/bin/macq-tutorial
+RUN echo 'python3 /usr/local/bin/examples.py' >> /usr/local/bin/macq-tutorial
+RUN chmod +x /usr/local/bin/macq-tutorial
+
+
 WORKDIR /root/macq-tutorial
 
 CMD planutils activate
