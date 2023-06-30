@@ -30,6 +30,10 @@ RUN echo '#!/bin/bash' > /usr/local/bin/macq-tutorial
 RUN echo 'python3 /usr/local/bin/examples.py' >> /usr/local/bin/macq-tutorial
 RUN chmod +x /usr/local/bin/macq-tutorial
 
+# Create a check-macq script that just prints "You're all set -- see you in Prague!"
+RUN echo '#!/bin/bash' > /usr/local/bin/check-macq
+RUN echo 'echo -e "\n\tYou are all set -- see you in Prague!\n"' >> /usr/local/bin/check-macq
+RUN chmod +x /usr/local/bin/check-macq
 
 WORKDIR /root/work
 
