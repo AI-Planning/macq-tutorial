@@ -72,7 +72,7 @@ def observer_example():
 
     print("\nPrinting model...")
     model.to_pddl(
-        domain_name="test-blocks", domain_filename="d.pddl", problem_filename="p.pddl"
+        domain_name="test", domain_filename="d.pddl", problem_filename="p.pddl"
     )
 
     print("\nDone!\n")
@@ -81,18 +81,18 @@ def observer_example():
 def slaf_example():
     print("\nGenerating traces...")
     traces = generate.pddl.VanillaSampling(
-        problem_id=PROBLEM_ID, plan_len=20, num_traces=1
+        problem_id=PROBLEM_ID, plan_len=15, num_traces=1
     ).traces
 
     traces[0].print(view="color")
 
     print("\nExtracting model...")
     observations = traces.tokenize(AtomicPartialObservation, percent_missing=0.25)
-    model = extract.Extract(observations, extract.modes.SLAF)
+    model = extract.Extract(observations, extract.modes.SLAF, debug=False, sample=False)
 
     print("\nPrinting model...")
     model.to_pddl(
-        domain_name="test-blocks", domain_filename="d.pddl", problem_filename="p.pddl"
+        domain_name="test", domain_filename="d.pddl", problem_filename="p.pddl"
     )
 
     print("\nDone!\n")
@@ -149,7 +149,7 @@ def amdn_example():
 
     print("\nPrinting model...")
     model.to_pddl(
-        domain_name="test-blocks", domain_filename="d.pddl", problem_filename="p.pddl"
+        domain_name="test", domain_filename="d.pddl", problem_filename="p.pddl"
     )
 
     print("\nDone!\n")
@@ -169,7 +169,7 @@ def locm_example():
 
     print("\nPrinting model...")
     model.to_pddl(
-        domain_name="test-blocks", domain_filename="d.pddl", problem_filename="p.pddl"
+        domain_name="test", domain_filename="d.pddl", problem_filename="p.pddl"
     )
 
     print("\nDone!\n")
@@ -214,7 +214,7 @@ def locm_slides_example():
 
     print("\nPrinting model...")
     model.to_pddl(
-        domain_name="test-blocks", domain_filename="d.pddl", problem_filename="p.pddl"
+        domain_name="test", domain_filename="d.pddl", problem_filename="p.pddl"
     )
 
     print("\nDone!\n")
@@ -222,7 +222,7 @@ def locm_slides_example():
 
 def main():
     # Ask the user which example they want to run.
-    print("Which example would you like to see?")
+    print("\nWhich example would you like to see?")
     print("1. Observer")
     print("2. SLAF")
     print("3. AMDN")
