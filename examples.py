@@ -157,6 +157,7 @@ def amdn_example():
 
 def locm_example():
     print("\nGenerating traces...")
+    PROBLEM_ID = 2738 # Using the barman instead for something that works with LOCM
     traces = generate.pddl.VanillaSampling(
         problem_id=PROBLEM_ID, plan_len=50, num_traces=1
     ).traces
