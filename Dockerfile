@@ -14,8 +14,8 @@ RUN pip3 install --upgrade tqdm
 RUN pip3 install --upgrade pygments
 
 
-RUN planutils install -f -y lama-first
-RUN planutils install -f -y lama
+# RUN planutils install -f -y lama-first
+# RUN planutils install -f -y lama
 RUN planutils install -f -y macq
 
 

@@ -18,6 +18,8 @@ from macq.trace import (
     Action,
     State,
     PlanningObject,
+    Trace,
+    TraceList,
     DisorderedParallelActionsObservationLists,
 )
 
@@ -45,6 +47,8 @@ from macq.trace import (
     Action,
     State,
     PlanningObject,
+    Trace,
+    TraceList,
     DisorderedParallelActionsObservationLists,
 )
 
@@ -121,6 +125,118 @@ def slaf_slides_example():
 
     model = extract.Extract(obs, extract.modes.SLAF, debug=False)
     print(model.details())
+
+
+def amdn_slides_example():
+    print("\nGenerating traces...")
+
+    # Objects o1 to o3
+    o1 = PlanningObject("", "o1")
+    o2 = PlanningObject("", "o2")
+    o3 = PlanningObject("", "o3")
+
+    # Fluents f1 through f6
+    f1 = Fluent("f1", [o1])
+    f2 = Fluent("f2", [o2])
+    f3 = Fluent("f3", [o3])
+    f4 = Fluent("f4", [o2])
+    f5 = Fluent("f5", [o1])
+    f6 = Fluent("f6", [])
+
+    # Actions a1 to a3
+    a1 = Action("a1", [o1, o2], precond={f1}, add={f2}, delete=set())
+    a2 = Action("a2", [o1], precond={f2}, add={f5}, delete=set())
+    a3 = Action("a3", [o1, o2], precond={f2}, add=set(), delete={f1, f2})
+
+    step_0 = Step(
+        State(
+            {
+                f1: True,
+                f2: False,
+                f3: True,
+                f4: True,
+                f5: False,
+                f6: True
+            }
+        ),
+        a1,
+        0,
+    )
+
+    step_1 = Step(
+        State(
+            {
+                f1: True,
+                f2: True,
+                f3: True,
+                f4: True,
+                f5: False,
+                f6: True
+            }
+        ),
+        a2,
+        1,
+    )
+
+    step_2 = Step(
+        State(
+            {
+                f1: True,
+                f2: True,
+                f3: True,
+                f4: True,
+                f5: True,
+                f6: True
+            }
+        ),
+        a3,
+        2,
+    )
+
+    step_3 = Step(
+        State(
+            {
+                f1: False,
+                f2: False,
+                f3: True,
+                f4: True,
+                f5: True,
+                f6: True
+            }
+        ),
+        None,
+        3
+    )
+
+
+    traces = TraceList([Trace([step_0, step_1, step_2, step_3])])
+
+    print("\nExtracting model...")
+    features = [objects_shared_feature, num_parameters_feature]
+    learned_theta = default_theta_vec(2)
+    observations = traces.tokenize(
+        Token=NoisyPartialDisorderedParallelObservation,
+        ObsLists=DisorderedParallelActionsObservationLists,
+        features=features,
+        learned_theta=learned_theta,
+        percent_missing=0.0,
+        percent_noisy=0.0,
+        replace=False,
+    )
+
+    observations.print(view="details")
+
+    model = extract.Extract(
+        observations, extract.modes.AMDN, debug=True, occ_threshold=2
+    )
+
+    print("\nPrinting model...")
+    model.to_pddl(
+        domain_name="test", domain_filename="d.pddl", problem_filename="p.pddl"
+    )
+
+    print("\nDone!\n")
+
 
 
 def amdn_example():
@@ -233,7 +349,7 @@ def main():
 
     assert inp in ["1", "2", "3", "4"], "Invalid input. Exiting."
 
-    if inp in ["2", "4"]:
+    if inp in ["2", "3", "4"]:
         # Ask if simple or slides example.
         print("Which example would you like to run?")
         print("1. Simple")
@@ -252,9 +368,12 @@ def main():
     elif inp == "2" and inp2 == "2":
         func = slaf_slides_example
         code = inspect.getsource(slaf_slides_example) + "\n" + "slaf_slides_example()"
-    elif inp == "3":
+    elif inp == "3" and inp2 == "1":
         func = amdn_example
         code = inspect.getsource(amdn_example) + "\n" + "amdn_example()"
+    elif inp == "3" and inp2 == "2":
+        func = amdn_slides_example
+        code = inspect.getsource(amdn_slides_example) + "\n" + "amdn_slides_example()"
     elif inp == "4" and inp2 == "1":
         func = locm_example
         code = inspect.getsource(locm_example) + "\n" + "locm_example()"
