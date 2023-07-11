@@ -16,7 +16,7 @@ This tutorial covers some of the landmark methods in the area of planning action
 
 ### External
 
-- [slides](https://queensuca-my.sharepoint.com/:p:/g/personal/cm290_queensu_ca/EdF58JZpq21Nmi5StZpOT80BQuHOw9oA1ak3RnNnOzVNXg?e=L0xFVX): The slides for the tutorial.
+- [slides](https://queensuca-my.sharepoint.com/:p:/g/personal/cm290_queensu_ca/EdF58JZpq21Nmi5StZpOT80BQuHOw9oA1ak3RnNnOzVNXg?e=shjL6A): The slides for the tutorial.
 
 ## Organizers
 
